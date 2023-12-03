@@ -17,21 +17,21 @@ class MyApp extends StatelessWidget {
             title: Center(
               child: Text('Mindful Meal Eater'),
             )),
-        backgroundColor: Colors.white, // Match the background color
+        backgroundColor: Colors.white,
         body: Center(
-          child: StopwatchWidget(),
+          child: HomeScreenWidget(),
         ),
       ),
     );
   }
 }
 
-class StopwatchWidget extends StatefulWidget {
+class HomeScreenWidget extends StatefulWidget {
   @override
-  _StopwatchWidgetState createState() => _StopwatchWidgetState();
+  _HomeScreenWidgetState createState() => _HomeScreenWidgetState();
 }
 
-class _StopwatchWidgetState extends State<StopwatchWidget>
+class _HomeScreenWidgetState extends State<HomeScreenWidget>
     with SingleTickerProviderStateMixin {
   late AnimationController controller;
   final PageController _pageController = PageController(initialPage: 0);
@@ -69,24 +69,23 @@ class _StopwatchWidgetState extends State<StopwatchWidget>
       }
     });
 
-    // controller.addListener(() {
-    //   if ((controller.duration! * controller.value).inSeconds > 25 &&
-    //       !shouldPlaySound) {
-    //     shouldPlaySound = true;
-    //     playTickSound();
-    //   }
-    //   if (controller.value > 0.166 && shouldPlaySound) {
-    //     shouldPlaySound = false;
-    //   }
-    // });
+    controller.addListener(() {
+      if ((controller.duration! * controller.value).inSeconds > 25 &&
+          !shouldPlaySound) {
+        shouldPlaySound = true;
+        playTickSound();
+      }
+      if (controller.value > 0.166 && shouldPlaySound) {
+        shouldPlaySound = false;
+      }
+    });
 
     startTimer();
   }
 
   void playTickSound() async {
-    // audioPlayer.setReleaseMode(ReleaseMode.loop);
-
-    // audioPlayer.play(AssetSource('countdown_tick.mp3'));
+    audioPlayer.setReleaseMode(ReleaseMode.loop);
+    audioPlayer.play(AssetSource('countdown_tick.mp3'));
   }
 
   void startTimer() {
@@ -205,7 +204,7 @@ class _StopwatchWidgetState extends State<StopwatchWidget>
             style: ElevatedButton.styleFrom(
               backgroundColor: Color.fromARGB(255, 173, 229, 176),
               foregroundColor: Colors.black,
-              elevation: 8, // Elevation
+              elevation: 8,
               shadowColor: Colors.teal[400],
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15),
@@ -294,7 +293,6 @@ class TimerPainter extends CustomPainter {
     canvas.drawArc(Offset.zero & size, -3.1415926535897932 / 2,
         2 * 3.1415926535897932, false, paint);
 
-    // Draw the remaining time in green
     paint.color = color;
     double progress = (1.0 - animation.value) * 2 * 3.1415926535897932;
     canvas.drawArc(
@@ -352,14 +350,13 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          SizedBox(height: 15), // For spacing
+          SizedBox(height: 15),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: List<Widget>.generate(3, _buildDot),
           ),
-          // For spacing
           Container(
-            height: 150, // Adjust the height as needed
+            height: 150,
             child: PageView(
               controller: widget.pageController,
               physics: const NeverScrollableScrollPhysics(),
